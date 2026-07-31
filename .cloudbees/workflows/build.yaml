@@ -38,11 +38,14 @@ jobs:
                 "type": "docker"
               }
             ]
-      - name: Build and save Docker image
-        uses: docker://docker:latest
-        run: |
-          docker build -t backend:${{ cloudbees.version }} .
-          docker save backend:${{ cloudbees.version }} -o backend.tar
+      - name: Build Docker image with Kaniko
+        uses: cloudbees-io/kaniko@v1
+        with:
+          destination: backend:${{ cloudbees.version }}
+          context: .
+          dockerfile: Dockerfile
+          no-push: true
+          tar-path: backend.tar
       - id: upload-binary
         name: Upload Docker image for security scanning
         uses: cloudbees-io/asset-chain-utils/upload-binary@v1
