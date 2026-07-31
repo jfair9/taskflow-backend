@@ -38,3 +38,8 @@ jobs:
                 "type": "docker"
               }
             ]
+      - name: Generate SBOM with Syft
+        uses: cloudbees-io/syft-scan@v1
+        with:
+          path: .
+          format: spdx-json
