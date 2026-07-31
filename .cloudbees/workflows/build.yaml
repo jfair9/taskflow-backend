@@ -38,13 +38,21 @@ jobs:
                 "type": "docker"
               }
             ]
+      - name: Configure GHCR credentials
+        uses: cloudbees-io/configure-oci-credentials@v1
+        with:
+          registry: ghcr.io
+          username: ${{ vars.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_TOKEN }}      
       - name: Build Docker image with Kaniko
         uses: cloudbees-io/kaniko@v1
         with:
+          destination: ghcr.io/jfair9/backend:${{ cloudbees.version }}
           context: .
           dockerfile: Dockerfile
           tar-path: backend.tar
           skip-default-registry-fallback: true
+          no-push: true
       - id: upload-binary
         name: Upload Docker image for security scanning
         uses: cloudbees-io/asset-chain-utils/upload-binary@v1
