@@ -45,6 +45,7 @@ jobs:
           context: .
           dockerfile: Dockerfile
           tar-path: backend.tar
+          skip-default-registry-fallback: true
       - id: upload-binary
         name: Upload Docker image for security scanning
         uses: cloudbees-io/asset-chain-utils/upload-binary@v1
