@@ -41,7 +41,6 @@ jobs:
       - name: Build Docker image with Kaniko
         uses: cloudbees-io/kaniko@v1
         with:
-          destination: backend:${{ cloudbees.version }}
           context: .
           dockerfile: Dockerfile
           tar-path: backend.tar
