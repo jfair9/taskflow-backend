@@ -38,8 +38,14 @@ jobs:
                 "type": "docker"
               }
             ]
-      - name: Generate SBOM with Syft
-        uses: cloudbees-io/syft-scan@v1
+      - name: Build and save Docker image
+        uses: docker://docker:latest
+        run: |
+          docker build -t backend:${{ cloudbees.version }} .
+          docker save backend:${{ cloudbees.version }} -o backend.tar
+      - id: upload-binary
+        name: Upload Docker image for security scanning
+        uses: cloudbees-io/asset-chain-utils/upload-binary@v1
         with:
-          path: .
-          format: spdx-json
+          file-path: backend.tar
+          file-type: BINARY_CONTAINER
