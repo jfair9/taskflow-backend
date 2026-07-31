@@ -44,7 +44,6 @@ jobs:
           destination: backend:${{ cloudbees.version }}
           context: .
           dockerfile: Dockerfile
-          no-push: true
           tar-path: backend.tar
       - id: upload-binary
         name: Upload Docker image for security scanning
